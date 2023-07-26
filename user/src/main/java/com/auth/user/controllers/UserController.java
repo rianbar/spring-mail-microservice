@@ -41,8 +41,9 @@ public class UserController {
             log.info("not null user");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("this user has already registered");}
 
+        String passwordEncoder = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
         UserModel user = new UserModel(
-                registerDTO.getUsername(), passwordEncoder().encode(registerDTO.getPassword()), registerDTO.getRole());
+                registerDTO.getUsername(), passwordEncoder, registerDTO.getRole());
 
         this.userRepository.save(user);
         log.info("user registered");
@@ -59,9 +60,5 @@ public class UserController {
         var token = tokenService.generateToken((UserModel) auth.getPrincipal());
 
         return ResponseEntity.status(HttpStatus.OK).body(token);
-    }
-
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
     }
 }

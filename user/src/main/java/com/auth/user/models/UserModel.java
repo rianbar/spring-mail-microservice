@@ -17,7 +17,7 @@ public class UserModel implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private UUID id;
-    private String name;
+    private String username;
     private String password;
     private RoleEnum role;
 
@@ -25,8 +25,8 @@ public class UserModel implements UserDetails {
         //FOR JPA-HIBERNATE
     };
 
-    public UserModel(String name, String password, RoleEnum role) {
-        this.name = name;
+    public UserModel(String username, String password, RoleEnum role) {
+        this.username = username;
         this.password = password;
         this.role = role;
     }
@@ -45,7 +45,7 @@ public class UserModel implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.username;
     }
 
     @Override
