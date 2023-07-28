@@ -21,7 +21,7 @@ public class ProductModel {
     private String name;
     private BigDecimal value;
 
-    protected ProductModel() {
+    public ProductModel() {
         //FOR JPA-HIBERNATE
     }
 

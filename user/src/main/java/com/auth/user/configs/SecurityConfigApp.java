@@ -21,8 +21,6 @@ public class SecurityConfigApp {
     public static final String REGISTER_ROUTE = "/register";
     public static final String LOGIN_ROUTE = "/login";
 
-    @Autowired
-    SecurityFilter securityFilter;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
@@ -31,8 +29,7 @@ public class SecurityConfigApp {
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(HttpMethod.POST, "/auth" + REGISTER_ROUTE).permitAll()
-                        .requestMatchers(HttpMethod.POST, "/auth" + LOGIN_ROUTE).permitAll())
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class);
+                        .requestMatchers(HttpMethod.POST, "/auth" + LOGIN_ROUTE).permitAll());
 
         return httpSecurity.build();
     }

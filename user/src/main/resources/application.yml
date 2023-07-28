@@ -9,7 +9,7 @@ api:
 spring:
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://localhost:5432/db_users
+    url: jdbc:postgresql://localhost:5432/crud_prod_db
     username: admin
     password: admin
 
