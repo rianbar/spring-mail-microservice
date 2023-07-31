@@ -5,6 +5,7 @@ import com.auth.user.dtos.AuthDTO;
 import com.auth.user.dtos.RegisterDTO;
 import com.auth.user.models.UserModel;
 import com.auth.user.repositories.UserRepository;
+import com.auth.user.services.EmailService;
 import com.auth.user.services.TokenService;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -34,6 +35,9 @@ public class UserController {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    EmailService emailService;
+
     @PostMapping(value = SecurityConfigApp.REGISTER_ROUTE)
     public ResponseEntity<Object> registerUser(@RequestBody @Valid RegisterDTO registerDTO) {
 
@@ -43,10 +47,12 @@ public class UserController {
 
         String passwordEncoder = new BCryptPasswordEncoder().encode(registerDTO.getPassword());
         UserModel user = new UserModel(
-                registerDTO.getUsername(), passwordEncoder, registerDTO.getRole());
+                registerDTO.getUsername(), registerDTO.getEmail(), passwordEncoder, registerDTO.getRole());
 
+        emailService.sendMailToRecipient(registerDTO.getUsername(), registerDTO.getEmail());
         this.userRepository.save(user);
         log.info("user registered");
+
         return ResponseEntity.status(HttpStatus.CREATED).body("user successfully registered");
     }
 

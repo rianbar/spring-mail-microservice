@@ -11,5 +11,7 @@ public class RegisterDTO {
     String username;
     @NotBlank
     String password;
+    @NotBlank
+    String email;
     RoleEnum role;
 }
