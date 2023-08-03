@@ -1,20 +1,38 @@
+server:
+  port: 8080
 api:
   security:
     token:
       secret: asynchronous
-
 spring:
+  main:
+    allow-bean-definition-overriding: true
   datasource:
     driver-class-name: org.postgresql.Driver
     url: jdbc:postgresql://localhost:5432/crud_prod_db
     username: admin
     password: admin
-
   jpa:
     hibernate:
       ddl-auto: update
     show-sql: false
     database: postgresql
-
-server:
-  port: 8080
+  cache:
+    type: jcache
+    jcache:
+      provider: com.hazelcast.cache.impl.HazelcastServerCachingProvider
+      config: classpath:hazelcast.xml
+hazelcast:
+  jet:
+    enable: true
+bucket4j:
+  enabled: true
+  filters:
+    - cache-name: messageRateLimit
+      url: .*
+      filter-order: 100
+      rate-limits:
+        - bandwidths:
+            - capacity: 10
+              time: 60
+              unit: seconds
